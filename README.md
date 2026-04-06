@@ -3,7 +3,7 @@ Repositório com os códigos da turma de Qualidade de Software.
 
 <img width="1446" height="350" alt="image" src="https://github.com/user-attachments/assets/0e7a1e8c-75b4-4986-93a6-84cc5b065328" />
 
-# Colletion dos Enpoints:
+# Collection dos Enpoints:
 ```{
   "info": {
     "_postman_id": "638641b6-b99d-4366-a895-3c930dcd20fa",
