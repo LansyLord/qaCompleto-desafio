@@ -1,7 +1,6 @@
 package com.example.demo;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -69,5 +68,38 @@ public class ApiControllerTest {
         mockMvc.perform(get("/api/items/999")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testUpdateItem() throws Exception {
+        Item updatedItem = new Item(null, "Updated Item", "Updated Description");
+        mockMvc.perform(put("/api/items/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedItem)))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"id\":1,\"name\":\"Updated Item\",\"description\":\"Updated Description\"}"));
+    }
+
+    @Test
+    public void testUpdateItemBadRequest() throws Exception {
+        Item updatedItem = new Item(null, "Updated Item", "Updated Description");
+        mockMvc.perform(put("/api/items/null")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updatedItem)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testDeleteItem() throws Exception {
+        mockMvc.perform(delete("/api/items/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testDeleteItemBadRequest() throws Exception {
+        mockMvc.perform(delete("/api/items/null")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 }

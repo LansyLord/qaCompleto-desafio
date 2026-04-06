@@ -39,4 +39,31 @@ public class ApiController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Item> updateItemById(@PathVariable Long id, @RequestBody Item item) {
+        if (id == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        for (Item i : items)
+            if (i.getId() == id) {
+                i.setName(item.getName());
+                i.setDescription(item.getDescription());
+                return ResponseEntity.ok(i);
+            }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Item> deleteItemById(@PathVariable Long id) {
+        if (id == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        for (Item i : items)
+            if (i.getId() == id) {
+                items.remove(i);
+                return ResponseEntity.ok(i);
+            }
+        return ResponseEntity.notFound().build();
+    }
 }
